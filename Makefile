@@ -2,7 +2,7 @@ GO ?= go
 DOCKER ?= docker
 
 .PHONY: test
-test:
+test: generate-mocks
 	$(GO) test --race ./...
 .PHONY: list
 list:
