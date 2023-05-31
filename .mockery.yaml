@@ -1,0 +1,10 @@
+inpackage: False
+testonly: True
+with-expecter: True
+keeptree: False
+outpkg: "mocks"
+dir: "test/mocks/"
+packages:
+  github.com/archel/product_store/pkg/product/domain:
+    interfaces:
+      ProductRepository:
