@@ -14,12 +14,6 @@ type CreateProductWithoutGeneratingId struct {
 	r product.ProductRepository
 }
 
-func NewCreateProductWithoutGeneratingId(r product.ProductRepository) CreateProductWithoutGeneratingId {
-	return CreateProductWithoutGeneratingId{
-		r: r,
-	}
-}
-
 func (cp CreateProductWithoutGeneratingId) Create(p product.Product) (product.Product, error) {
 	if err := cp.r.Save(p); err != nil {
 		return product.Product{}, errors.New("cannot create a product")
@@ -47,9 +41,15 @@ func (cp CreateProductGeneratingId) Create(p product.Product) (product.Product, 
 
 }
 
-func NewCreateProductGeneratingId(cp CreateProduct, g product.ProductIdGenerator) CreateProductGeneratingId {
+func NewCreateProductWithoutGeneratingId(r product.ProductRepository) CreateProduct {
+	return CreateProductWithoutGeneratingId{
+		r: r,
+	}
+}
+
+func NewCreateProductGeneratingId(r product.ProductRepository, g product.ProductIdGenerator) CreateProduct {
 	return CreateProductGeneratingId{
-		cp: cp,
+		cp: NewCreateProductWithoutGeneratingId(r),
 		g:  g,
 	}
 }
