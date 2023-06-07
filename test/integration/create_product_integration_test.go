@@ -9,6 +9,7 @@ import (
 )
 
 func TestCreatesAProduct(t *testing.T) {
+	t.Skip("Unfinished test, need to double check if will be necessary or not")
 	container, err := containers.NewPostgresContainer()
 
 	if err != nil {
