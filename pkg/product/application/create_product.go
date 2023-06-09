@@ -28,8 +28,7 @@ type CreateProductGeneratingId struct {
 }
 
 func (cp CreateProductGeneratingId) Create(p product.Product) (product.Product, error) {
-	err := p.GenerateId(cp.g)
-	if err != nil {
+	if err := p.GenerateId(cp.g); err != nil {
 		return product.Product{}, err
 	}
 
@@ -38,7 +37,6 @@ func (cp CreateProductGeneratingId) Create(p product.Product) (product.Product, 
 	} else {
 		return p, nil
 	}
-
 }
 
 func NewCreateProductWithoutGeneratingId(r product.ProductRepository) CreateProduct {

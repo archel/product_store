@@ -22,6 +22,7 @@ func TestCreatesAProduct(t *testing.T) {
 	pr := mocks.NewMockProductRepository(t)
 	pr.EXPECT().Save(p).Return(nil)
 	cp := NewCreateProductWithoutGeneratingId(pr)
+
 	got, err := cp.Create(p)
 
 	if err != nil {
@@ -41,6 +42,7 @@ func TestCannotStoreAProduct(t *testing.T) {
 	pr := mocks.NewMockProductRepository(t)
 	pr.EXPECT().Save(p).Return(errors.New("test"))
 	cp := NewCreateProductWithoutGeneratingId(pr)
+
 	_, err := cp.Create(p)
 
 	if err == nil {
@@ -56,6 +58,7 @@ func TestCreatesAProductGeneratingTheId(t *testing.T) {
 	pr := mocks.NewMockProductRepository(t)
 	pr.EXPECT().Save(expected).Return(nil)
 	cp := NewCreateProductGeneratingId(pr, fixedUuidGenerator)
+
 	got, err := cp.Create(p)
 
 	if err != nil {
@@ -74,6 +77,7 @@ func TestCannotGenerateProductId(t *testing.T) {
 	p := product_domain.NewProduct("", 10.10, time.Now(), "Carrot Cake")
 	pr := mocks.NewMockProductRepository(t)
 	cp := NewCreateProductGeneratingId(pr, errorUuidGenerator)
+
 	_, err := cp.Create(p)
 
 	if err == nil {
@@ -89,6 +93,7 @@ func TestCannotStoreAProductWhenGeneratingTheId(t *testing.T) {
 	pr := mocks.NewMockProductRepository(t)
 	pr.EXPECT().Save(pWithId).Return(errors.New("test"))
 	cp := NewCreateProductGeneratingId(pr, fixedUuidGenerator)
+
 	_, err := cp.Create(p)
 
 	if err == nil {

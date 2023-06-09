@@ -7,21 +7,30 @@ import (
 	"testing"
 	"time"
 
-	product "github.com/archel/product_store/pkg/product/domain"
+	product_domain "github.com/archel/product_store/pkg/product/domain"
+	"github.com/archel/product_store/test/containers"
 	"github.com/gin-gonic/gin"
 )
 
-func setupRouter() *gin.Engine {
+func setupRouter(c ProductController) *gin.Engine {
 	r := gin.Default()
-	r.POST("/product", func(c *gin.Context) {
-		c.String(200, "pong")
-	})
+	r.POST("/product", c.CreateProductHandler)
 	return r
 }
 
+func setupController(t *testing.T) ProductController {
+	// cp := mocks.NewMockCreateProduct(t)
+	// cpWithIdGeneration := mocks.NewMockCreateProduct(t)
+	// return NewProductController(cp, cpWithIdGeneration)
+	return ProductController{}
+}
+
 func TestCreatesAProduct(t *testing.T) {
-	t.Skip("disabled")
-	router := setupRouter()
+	container, _ := containers.NewPostgresContainer()
+	defer container.Terminate()
+
+	c := setupController(t)
+	router := setupRouter(c)
 	now := time.Now()
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/product", nil)
@@ -32,10 +41,10 @@ func TestCreatesAProduct(t *testing.T) {
 	}
 
 	body := w.Body.String()
-	p := product.Product{}
-	err := json.Unmarshal([]byte(body), &p)
-	ep := product.NewProduct("123123", 10.10, now, "Carrot Cake")
-	if err != nil || p == ep {
+	var p product_domain.Product
+	json.Unmarshal([]byte(body), &p)
+	ep := product_domain.NewProduct("123123", 10.10, now, "Carrot Cake")
+	if p == ep {
 		t.Errorf("Expected body to be %v but got %v", ep, p)
 	}
 }

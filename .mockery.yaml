@@ -8,7 +8,4 @@ packages:
   github.com/archel/product_store/pkg/product/domain:
     interfaces:
       ProductRepository:
-
-  github.com/archel/product_store/pkg/product/application:
-    interfaces:
-      CreateProduct:
+      

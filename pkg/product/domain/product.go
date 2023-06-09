@@ -36,7 +36,7 @@ func NewProduct(
 }
 
 type ProductRepository interface {
-	FindById() Product
+	FindById(id string) (Product, error)
 	Save(p Product) error
 }
 
