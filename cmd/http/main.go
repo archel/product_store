@@ -12,7 +12,7 @@ import (
 
 func main() {
 	r := gin.New()
-	dsn := "host=localhost user=admin password=admin dbname=gorm port=9920 sslmode=disable TimeZone=UTC"
+	dsn := "host=localhost user=postgres password=s3cr3t dbname=postgres port=5432 sslmode=disable TimeZone=UTC"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error stabilishing connection to the db %v", err)

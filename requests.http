@@ -1,0 +1,19 @@
+### Create product with id
+POST http://localhost:8080/product/{{$guid}}
+Content-Type: application/json
+
+{
+    "description": "Carrot cake",
+    "price": 10.00,
+    "creation": "2023-11-10T09:05:10Z"
+}
+
+### Create product without id
+POST http://localhost:8080/product/
+Content-Type: application/json
+
+{
+    "description": "Carrot cake",
+    "price": 10.00,
+    "creation": "2023-11-10T09:05:10Z"
+}

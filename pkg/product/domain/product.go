@@ -6,10 +6,10 @@ import (
 )
 
 type Product struct {
-	Id          string
-	Price       float64
-	Creation    time.Time
-	Description string
+	Id          string    `json:"id,omitempty" uri:"id" gorm:"primaryKey,column=id"`
+	Price       float64   `json:"price" gorm:"column=price"`
+	Creation    time.Time `json:"creation" gorm:"column=creation"`
+	Description string    `json:"description" gorm:"column=description"`
 }
 
 func (p *Product) GenerateId(generator ProductIdGenerator) error {

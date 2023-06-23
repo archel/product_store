@@ -17,4 +17,4 @@ migrate:
 	$(DOCKER) run --rm --net=host \
 	-v $(PWD)/internal/migrations:/migrations \
 	arigaio/atlas migrate apply \
-	--url "postgres://postgres:s3cr3t@localhost:5432/products?sslmode=disable"
+	--url "postgres://postgres:s3cr3t@localhost:5432/postgres?sslmode=disable"

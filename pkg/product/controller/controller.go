@@ -21,13 +21,17 @@ func NewProductController(cp product_application.CreateProduct, cpWithIdGenerati
 
 func (c ProductController) CreateProductHandler(ctx *gin.Context) {
 	var p product_domain.Product
-	ctx.BindJSON(p)
-	id := ctx.Param("id")
-	var generator = func() (string, error) { return id, nil }
-	p.GenerateId(generator)
+	if err := ctx.BindJSON(&p); err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+		return
+	}
+
+	if err := ctx.BindUri(&p); err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+		return
+	}
 
 	p, err := c.cp.Create(p)
-
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, err)
 		return
@@ -38,7 +42,10 @@ func (c ProductController) CreateProductHandler(ctx *gin.Context) {
 
 func (c ProductController) CreateProductGeneratingIdHandler(ctx *gin.Context) {
 	var p product_domain.Product
-	ctx.BindJSON(p)
+	if err := ctx.BindJSON(&p); err != nil {
+		ctx.JSON(http.StatusBadRequest, err)
+		return
+	}
 
 	p, err := c.cpWithIdGeneration.Create(p)
 

@@ -7,7 +7,6 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: s3cr3t
-      POSTGRES_DB: products
     ports:
       - "5432:5432"
       
